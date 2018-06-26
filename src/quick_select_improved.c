@@ -32,6 +32,7 @@ int quick_select(int A[], int n, int k){
     }
   }
     
+    A[j] = A[0];
 
   if(j == k+1) return pivot;
   else if(j < k+1) return quick_select(A+j, n-j, k-j);
