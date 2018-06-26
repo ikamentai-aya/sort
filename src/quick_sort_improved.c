@@ -28,7 +28,7 @@ void quick_sort(int A[], int n){
         }
     }
     
-    quick_sort
+    quick_sort;
 }
 
 int main(){
