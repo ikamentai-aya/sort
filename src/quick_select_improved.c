@@ -10,34 +10,41 @@ A[0], A[1], ..., A[n-1] の中でk+1番目に小さい値を返す関数
 ただし、Aの中身は書き換えてしまう。
 */
 int quick_select(int A[], int n, int k){
-  int i, j, pivot, r, z;
+  int i, j, pivot, r, z, b;
 
 // 先頭の要素をピボットとする
   pivot = A[0];
     i = 1;
     j = 1;
     r = n-1;
-  while(r < n){
+  while(i < n){
     if(A[i] < pivot){
       int z = A[j];
       A[j] = A[i];
       A[i] = z;
       j++;
     }
-    else if(A[i] > pivot){
+    i = i+1;
+}
+    i = n-1;
+    while(i > 0){
+    if(A[i] > pivot){
         z = A[r];
         A[r] = A[i];
         A[i] = z;
         r = r-1;
     }
-  }
+    i = i-1;
+    }
     
-    A[j] = A[0];
+    b = A[0];
+    A[0] = A[j-1];
+    A[j-1] = b;
 
-  if(j == k+1) return pivot;
-  else if(j < k+1) return quick_select(A+j, n-j, k-j);
-  else return quick_select(A+1, j-1, k);
-}
+  if(k <= j-2) return quick_select(A, j-1, k);
+  else if(r+1 <= k) return quick_select(A+r+1, n-1-r, k-r-1);
+  else return pivot;
+  }
 
 int main(){
   int i;
