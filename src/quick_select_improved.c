@@ -10,40 +10,43 @@ A[0], A[1], ..., A[n-1] の中でk+1番目に小さい値を返す関数
 ただし、Aの中身は書き換えてしまう。
 */
 int quick_select(int A[], int n, int k){
-  int i, j, pivot, r, z, b;
+  int i, j, l, pivot, r, z, b;
 
 // 先頭の要素をピボットとする
-  pivot = A[0];
-    i = 1;
-    j = 1;
-    r = n-1;
-  while(i < n){
-    if(A[i] < pivot){
-      int z = A[j];
-      A[j] = A[i];
-      A[i] = z;
-      j++;
-    }
-    i = i+1;
-}
-    i = n-1;
-    while(i > 0){
-    if(A[i] > pivot){
-        z = A[r];
-        A[r] = A[i];
-        A[i] = z;
-        r = r-1;
-    }
-    i = i-1;
+    b = A[n/2];
+    A[n/2] = A[0];
+    A[0] = b;
+    
+    pivot = A[0];
+    
+    if(n == 1)return pivot;
+    
+    for(i = j =1; i < n; i++){
+        if(A[i] < pivot){
+            z = A[i];
+            A[i] = A[j];
+            A[j] = z;
+            j = j + 1;
+        }
     }
     
+    for(l = r = n-1; l > 0; l = l-1){
+        if(A[l] > pivot){
+            z = A[l];
+            A[l] = A[r];
+            A[r] = z;
+            r = r - 1;
+        }
+    }
+       
     b = A[0];
     A[0] = A[j-1];
     A[j-1] = b;
-
-  if(k <= j-2) return quick_select(A, j-1, k);
-  else if(r+1 <= k) return quick_select(A+r+1, n-1-r, k-r-1);
-  else return pivot;
+  
+  if(j-1 <= k && k <= r)return pivot;
+  else if(k <= j-2)return quick_select(A, j-1, k);
+  else return quick_select(A+r+1, n-1-r, k-r-1);
+  
   }
 
 int main(){
